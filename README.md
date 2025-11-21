@@ -1,4 +1,4 @@
-#African Languages Semantic Relatedness with W&B Integration
+African Languages Semantic Relatedness with W&B Integration
 1. Project Overview
 This repository contains a complete pipeline for analyzing Semantic Relatedness (SemRel) in three African languages—Hausa (hau), Kinyarwanda (kin), and Amharic (amh). The goal is to compare multilingual models with a fine-tuned transformer model on this task.
 All experiments are meticulously tracked using Weights & Biases (W&B) for real-time performance monitoring, metric logging, and artifact management.
@@ -18,9 +18,9 @@ The project relies on standard NLP and machine learning libraries. You can insta
 
 Install Hugging Face datasets and sentence-transformers
 pip install datasets sentence-transformers transformers
-# Install W&B for tracking
+Install W&B for tracking
 pip install wandb
-# Install general ML/data processing libraries
+Install general ML/data processing libraries
 pip install torch numpy pandas scikit-learn scipy matplotlib seaborn
 
 
@@ -41,9 +41,9 @@ python u25606426_miracle_zvirikuzhe_final_project_cos80.py
 4.2. Configuration
 By default, the script runs the full pipeline, including W&B tracking. You can disable W&B by changing the boolean flag at the bottom of the script:
 
-# In u25606426_miracle_zvirikuzhe_final_project_cos80 (around line 700)
+In u25606426_miracle_zvirikuzhe_final_project_cos80 (around line 700)
 if __name__ == "__main__":
-    # Set to False if you don't have W&B configured
+    Set to False if you don't have W&B configured
     USE_WANDB = True # Change this to False to run without W&B
     results = main(use_wandb=USE_WANDB)
 
