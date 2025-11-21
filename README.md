@@ -1,6 +1,6 @@
-# African Languages Semantic Relatedness with W&B Integration
+# African Languages Semantic Relatedness 
 # 1. Project Overview
-This repository contains a complete pipeline for analyzing Semantic Relatedness (SemRel) in three African languages—Hausa (hau), Kinyarwanda (kin), and Amharic (amh). The goal is to compare multilingual models with a fine-tuned transformer model on this task.
+This repository contains a complete pipeline for analyzing Semantic Relatedness (SemRel) in three African languages Hausa (hau), Kinyarwanda (kin), and Amharic (amh). The goal is to compare multilingual models with a fine-tuned transformer model on this task.
 All experiments are meticulously tracked using Weights & Biases (W&B) for real-time performance monitoring, metric logging, and artifact management.
 # 2. Research Focus & Methodology
 The project addresses two primary research questions:
@@ -8,7 +8,7 @@ Transfer Learning Efficacy: Which transfer learning approaches best improve sema
 Baseline Comparison: How do baseline multilingual models (LaBSE, MPNet) compare to the fine-tuned XLM-RoBERTa model for Hausa, Kinyarwanda, and Amharic?
 Methodology Summary:
 The experiments are structured around the following components:
-Baseline Models: We use LaBSE and the Multilingual MPNet (paraphrase-multilingual-mpnet-base-v2). These models are used for zero-shot evaluation.
+Baseline Models: We use LaBSE and the Multilingual MPNet (paraphrase multilingual-mpnet-base-v2). These models are used for zero-shot evaluation.
 Transfer Learning Model: We fine-tune the XLM-RoBERTa model (xlm-roberta-base) on the combined SemRel training data.
 Data Source: All models are evaluated on the SemRel/SemRel2024 dataset from Hugging Face.
 Evaluation Metrics: The primary performance indicator is the Spearman Correlation ($\rho$), supported by the Mean Absolute Error (MAE) and Pearson Correlation.
