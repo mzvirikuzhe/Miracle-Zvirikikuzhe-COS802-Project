@@ -1,89 +1,90 @@
-# African Languages Semantic Relatedness 
-# 1. Project Overview
-This repository contains a complete pipeline for analyzing Semantic Relatedness (SemRel) in three African languages Hausa (hau), Kinyarwanda (kin), and Amharic (amh). The goal is to compare multilingual models with a fine-tuned transformer model on this task.
-All experiments are meticulously tracked using Weights & Biases (W&B) for real-time performance monitoring, metric logging, and artifact management.
-# 2. Research Focus & Methodology
-The project addresses two primary research questions:
-Transfer Learning Efficacy: Which transfer learning approaches best improve semantic relatedness determination in African languages?
-Baseline Comparison: How do baseline multilingual models (LaBSE, MPNet) compare to the fine-tuned XLM-RoBERTa model for Hausa, Kinyarwanda, and Amharic?
-Methodology Summary:
-The experiments are structured around the following components:
-Baseline Models: We use LaBSE and the Multilingual MPNet (paraphrase multilingual-mpnet-base-v2). These models are used for zero-shot evaluation.
-Transfer Learning Model: We fine-tune the XLM-RoBERTa model (xlm-roberta-base) on the combined SemRel training data.
-Data Source: All models are evaluated on the SemRel/SemRel2024 dataset from Hugging Face.
-Evaluation Metrics: The primary performance indicator is the Spearman Correlation ($\rho$), supported by the Mean Absolute Error (MAE) and Pearson Correlation.
-# 3. Setup and Prerequisites
-# 3.1. Package List
-The project relies on standard NLP and machine learning libraries. You can install all necessary dependencies using the following commands:
+# Comparing Baseline vs. Fine-Tuned Models for Semantic Relatedness in African Languages
 
-Install Hugging Face datasets and sentence-transformers
-pip install datasets sentence-transformers transformers
-Install W&B for tracking
-pip install wandb
-Install general ML/data processing libraries
-pip install torch numpy pandas scikit-learn scipy matplotlib seaborn
+# 1. Project Overview.
+The objective of this current project is to explore semantic relatedness in three African languages Hausa (hau), Kinyarwanda (kin) and Amharic (amh). The goal is to assess how multilingual baseline models perform against a fine-tuned transformer model (XLM-RoBERTa) on the Semantic relatedness task.
+The set of solutions comprises of a zero-shot semantic similarity model; a fine-tuned transformer model applied transfer learning, complete execution, evaluation, and results-saving experiments.
+
+# 2. Research Focus & Methodology.
+2.1 Research Questions.
+1.	How do baseline multilingual models (like LaBSE and MPNet) compare to a fine-tuned model (XLM-RoBERTa) for this task?
+2.	Which transfer learning approach is best for Hausa, Kinyarwanda, and Amharic: zero-shot or fine-tuning?
 
 
-# 3.2. Weights & Biases (W&B) Setup
-To enable experiment tracking, you must have a W&B account and be logged in:
-Sign up/Log in: Create an account at wandb.ai.
-Login via Terminal: Run the following command and enter your API key when prompted:
-wandb login
+# 2.2 Methodological Overview.
+The study employs two modelling paradigms.
+
+Baseline (Zero-Shot) Models.
+We use the below sentence-embedding models without task-specific fine-tuning.
+•	LaBSE: https://huggingface.co/sentence-transformers/LaBSE.
+•	Multilingual MPNet Base V2 Rewriter: https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2.
+Embeddings are taken and cosine similarity is used to compute similarity.
+Transfer Learning Model.
+•	XLM-RoBERTa Base: https://huggingface.co/xlm-roberta-base.
+A regression head was added to the model to fine-tune it on SemRel2024.
+Dataset.
+SemRel / SemRel2024 Dataset.
+https://huggingface.co/datasets/SemRel/SemRel2024
+
+Characteristics.
+•	Semantic relatedness dataset annotated in multiple languages with the help of human.
+•	Includes a number of varieties, such as Hausa, Amharic, Kinyarwanda, Zulu etc.
+•	It has sentence pairs with cosine similarity scores between 0 and 1. It has train/dev/test splits.
+
+Evaluation Metrics.
+•	The primary metric for semantic similarity ranking is Spearman’s Rank Correlation (ρ).
+•	Pearson Correlation.
+•	Mean Absolute Error (MAE).
+•	Mean Squared Error (MSE).
+•	Root Mean Square Error (RMSE).
+
+# 2.3. Environment Configuration and Dependencies.
+•	Install core dependencies.
+•	pip install datasets sentence-transformers transformers.
+•	Use pip to install torch and more.
+•	pip install matplotlib seaborn.
+
+Optional Weights & Biases (W&B).
+•	pip install wandb.
+
+# 3. System Architecture.
+The design in question employs a modular architecture to enhance its reproducibility.
+
+Data Processing.
+SemRelDataLoader.
+•	Get the SemRel2024 dataset from Hugging Face.
+•	Extracts language-specific subsets.
+•	Performs preprocessing.
+•	Creates splits for training and validation
+
+Model Components.
+•	The BaselineModel is based on cosine similarity and uses LaBSE and MPNet.
+•	XLM-RoBERTa with regression output – SemanticRelatednessModel
+•	SemRelDataset is a PyTorch dataset for multilingual tokenized/detokenized text inputs.
+
+Training and Experiment Execution.
+•	The term SemRelTrainer refers to fine-tuning with the Hugging Face Trainer.
+•	ExperimentsExecutor-automatically run baseline, fine-tune & transfer learning
+•	the main function runs the pipeline from beginning to end.
+
+Evaluation and Analysis.
+•	The Evaluation Metrics help compute correlation and error metrics
+•	The ErrorAnalyzer gets sentence pairs that have high prediction errors.
+•	ResultsVisualizer creates charts for comparisons and heat maps.
 
 
-# 4. How to Run Experiments
-The entire pipeline is contained within the main Python file.
-4.1. Execution
-Execute the script directly from your terminal:
-python u25606426_miracle_zvirikuzhe_final_project_cos80.py
+# 4.Optional. Real-Time Tracking (Weights & Biases).
+The notebook runs fully without W&B, and a user can easily enable experiment tracking on their own accounts.
+How to Enable W&B (Optional).
+1.	Create an account at: https://wandb.ai.
+2.	Retrieve your personal API key from your W&B profile settings.
+3.	Log in via terminal:.
+4.	wandb login YOUR_API_KEY.
+In the notebook or Python script, set the flag to.
+USE_WANDB = True.
+It will turn on the W&B experiment logging, dashboards, and visualizations right away.
 
+Optional: Real-Time Tracking (W&B).
+If you enable W&B, you’ll get: - Loss curves, per epoch - Dashboards for comparing models - Saved model artifacts - Tables with predictions vs. true scores. 
+You can run or reproduce results without using the optional feature. 
 
-# 4.2. Configuration
-By default, the script runs the full pipeline, including W&B tracking. You can disable W&B by changing the boolean flag at the bottom of the script:
-
-In u25606426_miracle_zvirikuzhe_final_project_cos80 (around line 700)
-if __name__ == "__main__":
-    Set to False if you don't have W&B configured
-    USE_WANDB = True # Change this to False to run without W&B
-    results = main(use_wandb=USE_WANDB)
-
-
-The key hyperparameters for the fine-tuning phase are set in the main function's config dictionary and are logged to W&B:
-config = {
-    'languages': ['hau', 'kin', 'amh'],
-    'epochs': 2,
-    'batch_size': 8,
-    'learning_rate': 2e-5,
-    'val_size': 0.2,
-    'random_state': 42,
-    'model_name': 'xlm-roberta-base'
-}
-
-
-# 4.3. Outputs
-Upon completion, the script will:
-Print the experiment results table to the console.
-Save the complete results to a CSV file in the ./results directory:
-./results/experiment_results.csv
-5. Pipeline Structure and Documentation
-The code is organized into logical classes and functional sections to maximize clarity and maintainability.
-Setup: The WandBTracker utility handles initializing, logging metrics, and finishing the Weights & Biases run.
-Data Handling: The SemRelDataLoader manages loading and preprocessing the SemRel/SemRel2024 dataset, including creating train/validation splits.
-
-# Models:
-BaselineModel encapsulates the inference logic for the LaBSE and MPNet sentence embedding models.
-SemanticRelatednessModel defines the regression head added on top of the transformer backbone (XLM-RoBERTa) for fine-tuning.
-SemRelDataset is a PyTorch Dataset used for tokenizing sentence pairs and preparing scores for the fine-tuning process.
-Training & Execution:
-SemRelTrainer wraps the Hugging Face Trainer instance, integrating the model fine-tuning with W&B tracking.
-ExperimentRunner acts as the orchestrator, managing the sequential execution of both baseline and transfer learning experiments.
-main() is the entry point that executes the entire pipeline end-to-end.
-
-# Evaluation & Analysis:
-EvaluationMetrics calculates all the necessary metrics, including Spearman, Pearson, MAE, MSE, and RMSE.
-ErrorAnalyzer generates detailed reports on prediction errors, focusing on worst-case analysis and performance across different score ranges.
-ResultsVisualizer creates plots (comparison charts, heatmaps) for the metrics and logs them as W&B Images.
-
-6. Real-time Tracking (W&B)
-The project heavily utilizes Weights & Biases to track and compare all experiments:
 
